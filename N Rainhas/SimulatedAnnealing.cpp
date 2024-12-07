@@ -3,7 +3,7 @@
 //--------------------------------------------------------------------------------------------------
 
 SimulatedAnnealing::SimulatedAnnealing(NQueens* queens, int iterations) :
-	LocalSearch(queens)
+	LocalSearch{ queens }
 {
 	// Obtém o número atual de ataques
 	int current{ queens->CheckAttacks() };
@@ -23,19 +23,14 @@ SimulatedAnnealing::SimulatedAnnealing(NQueens* queens, int iterations) :
 		// Calcula a diferença do número de ataques entre o estado atual e o vizinho
 		int deltaE{ current - neighbour.attacks };
 
-		if (deltaE > 0) // Sempre aceita melhorias
-		{
-			current = neighbour.attacks;
-			queens->Move(neighbour.column, neighbour.row);
-		}
-		// Aceita piores estados com probabilidade e^(deltaE / temperatura)
-		else if (std::exp(deltaE / temperature) > Random::GenerateReal())
+		// Aceita movimento se melhorar o estado senão com probabilidade e^(deltaE / temperatura)
+		if (deltaE > 0 || std::exp(deltaE / temperature) > Random::GenerateReal())
 		{
 			current = neighbour.attacks;
 			queens->Move(neighbour.column, neighbour.row);
 		}
 
-		std::cout << "Iteracao " << i << "\n\n";
+		std::cout << "Iteracao " << i << std::endl;
 	}
 }
 

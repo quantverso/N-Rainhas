@@ -10,13 +10,13 @@ float&	Entity::deltaTime{ Engine::deltaTime };
 //--------------------------------------------------------------------------------------------------
 
 Entity::Entity() :	
-	id(id_),
-	tag(tag_),
-	scene(scene_),
-	visible(true),
-	scene_(nullptr),
-	material(*AddComponent<Material>()),
-	transform(*AddComponent<Transform>())
+	id{ id_ },
+	tag{tag_},
+	scene{ scene_ },
+	visible{ true },
+	scene_{},
+	material{ *AddComponent<Material>() },
+	transform{ *AddComponent<Transform>() }
 {
 }
 

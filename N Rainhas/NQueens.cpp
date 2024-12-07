@@ -3,13 +3,14 @@
 #include "SimulatedAnnealing.h"
 #include "GeneticAlgorithm.h"
 #include "Random.h"
+#include <algorithm>
 
 //--------------------------------------------------------------------------------------------------
 
 NQueens::NQueens() :
-	square({ Rectangle::Solid }),
-	queens({}),
-	rows({})
+	square{ Rectangle::Solid },
+	queens{},
+	rows{}
 {
 }
 
@@ -86,8 +87,7 @@ void NQueens::Draw()
 
 void NQueens::Shuffle()
 {
-	for (int i{}; i < N; i++)
-		rows[i] = Random::GenerateRow();
+	std::generate(rows.begin(), rows.end(), Random::GenerateRow);
 }
 
 //--------------------------------------------------------------------------------------------------

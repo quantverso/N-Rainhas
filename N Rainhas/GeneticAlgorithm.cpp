@@ -2,90 +2,81 @@
 
 //--------------------------------------------------------------------------------------------------
 
-GeneticAlgorithm::GeneticAlgorithm(NQueens* queens, int generations, int population, float mutationRate) :
-	LocalSearch(queens)
+GeneticAlgorithm::GeneticAlgorithm(NQueens* queens, int generations, int population, float mutationRate)
+    : LocalSearch{ queens }
 {
-	Population population1(population), population2(population);
-	Chromosome parent1, parent2, offspring;
+    Population population1(population), population2(population);
+    Chromosome parent1, parent2;
 
-	// Inicializa a população com valores aleatórios
-	for (auto& individual : population1)
-		for (auto& gene : individual)
-			gene = Random::GenerateRow();
+    // Inicializa a população inicial com valores aleatórios
+    for (auto& individual : population1)
+        std::generate(individual.begin(), individual.end(), Random::GenerateRow);
 
-	for (int generation{}; generation < generations; generation++)
-	{
-		if (queens->CheckAttacks() == 0)
-			break;
+    // Processa as gerações até encontrar uma solução ou atingir o limite
+    for (int generation{}; generation < generations; generation++)
+    {
+        std::cout << "Geracao: " << generation << std::endl;
 
-		std::cout << "Geracao: " << generation << "\n\n";
+        for (auto& offspring : population2)
+        {
+            // Seleciona os pais
+            SelectChromosome(parent1, population1);
+            SelectChromosome(parent2, population1);
 
-		population2.clear();
+            // Realiza o cruzamento
+            int point{ Random::GenerateRow() };
+            std::copy(parent1.begin(), parent1.begin() + point, offspring.begin());
+            std::copy(parent2.begin() + point, parent2.end(), offspring.begin() + point);
 
-		for (int i{}; i < population1.size(); i++)
-		{
-			SelectChromosome(parent1, population1);
-			SelectChromosome(parent2, population1);
-			Crossover(offspring, parent1, parent2);
-			Mutate(offspring, mutationRate);
+            // Aplica mutação
+            if (Random::GenerateReal() < mutationRate)
+            {
+                auto neighbour{ GenerateNeighbour() };
+                offspring[neighbour.column] = neighbour.row;
+            }
 
-			population2.push_back(offspring);
+            // Verifica se a solução foi encontrada
+            if (queens->CheckAttacks(offspring) == 0)
+            {
+                queens->Move(offspring);
+                return;
+            }
+        }
 
-			queens->Move(offspring);
-		}
-
-		std::swap(population1, population2);
-	}
+        // Troca as populações
+        std::swap(population1, population2);
+    }
 }
+
+
 
 //--------------------------------------------------------------------------------------------------
 
 void GeneticAlgorithm::SelectChromosome(Chromosome& parent, const Population& population)
 {
 	fitnessGroups.clear();
-	weights.clear();
+	rouletteWeights.clear();
 
 	// Agrupa os indivíduos com base no fitness
-	for (int i{}; i < population.size(); i++)
+	for (const auto& individual : population)
 	{
-		int fitness{ EvaluateFitness(population[i]) };
-		fitnessGroups[fitness].push_back(i);
+		int fitness{ EvaluateFitness(individual) };
+		fitnessGroups[fitness].push_back(&individual);
 	}
 	
 	// Guarda os pesos no vetor
 	for (const auto& pair : fitnessGroups)
-		weights.push_back(pair.first);
+		rouletteWeights.push_back(pair.first);
 
 	// Distribuição para simular uma roleta
-	std::discrete_distribution dist{ weights.begin(), weights.end() };
+	std::discrete_distribution roulette{ rouletteWeights.begin(), rouletteWeights.end() };
 
 	// Escolhe um grupo usando a distribuição discreta
-	auto& choosed{ fitnessGroups[weights[dist(Random::mt)]] };
+	auto& choosed{ fitnessGroups[rouletteWeights[roulette(Random::mt)]] };
 
 	// Escolhe um indivíduo aleatório do grupo selecionado
-	std::uniform_int_distribution<int> rand(0, int(choosed.size() - 1));
-	parent = population[choosed[rand(Random::mt)]];
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void GeneticAlgorithm::Crossover(Chromosome& offspring, const Chromosome& parent1, const Chromosome& parent2)
-{
-	int point{ Random::GenerateRow() };
-
-	std::copy(parent1.begin(), parent1.begin() + point, offspring.begin());
-	std::copy(parent2.begin() + point, parent2.end(), offspring.begin() + point);
-}
-
-//--------------------------------------------------------------------------------------------------
-
-void GeneticAlgorithm::Mutate(Chromosome& offspring, float mutationRate)
-{
-	if (mutationRate > Random::GenerateReal())
-	{
-		auto neighbour{ GenerateNeighbour() };
-		offspring[neighbour.column] = neighbour.row;
-	}
+	std::uniform_int_distribution<int> randomIndividual{ 0, int(choosed.size() - 1) };
+	parent = *choosed[randomIndividual(Random::mt)];
 }
 
 //--------------------------------------------------------------------------------------------------

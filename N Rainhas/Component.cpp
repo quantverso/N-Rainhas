@@ -9,9 +9,9 @@ Window& Component::window{ Engine::window }; ///< Referência para a janela gráfi
 //--------------------------------------------------------------------------------------------------
 
 Component::Component(Entity*& entity) :
-	visible(false),
-	entity(entity),
-	scene(entity->scene)
+	visible{},
+	entity{ entity },
+	scene{ entity->scene }
 {	
 }
 

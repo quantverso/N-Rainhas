@@ -10,7 +10,7 @@ float&  Scene::deltaTime{ Engine::deltaTime };
 // ------------------------------------------------------------------------------------------------
 
 Scene::Scene() :
-	visible(true)
+	visible{ true }
 {
 }
 

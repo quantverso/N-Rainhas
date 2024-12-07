@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------------
 
 HillClimbing::HillClimbing(NQueens* queens) :
-	LocalSearch(queens)
+	LocalSearch{ queens }
 {
 	// Obtém o número atual de ataques
 	int current{ queens->CheckAttacks() };
@@ -40,7 +40,7 @@ HillClimbing::HillClimbing(NQueens* queens) :
 HillClimbing::Move HillClimbing::Heuristic()
 {
 	// Armazena o melhor movimento encontrado
-	Move best{};
+	Move best;
 	best.attacks = queens->CheckAttacks();
 	
 	for (int col{}; col < NQueens::N; col++)

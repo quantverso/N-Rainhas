@@ -11,7 +11,7 @@
 
 using Chromosome = std::array<int, NQueens::N>;
 using Population = std::vector<Chromosome>;
-using FitnessGroups = std::unordered_map<int, std::vector<int>>;
+using FitnessGroups = std::unordered_map<int, std::vector<const Chromosome*>>;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -22,12 +22,10 @@ public:
 
 private:
 	void SelectChromosome(Chromosome& parent, const Population& population);
-	void Crossover(Chromosome& offspring, const Chromosome& parent1, const Chromosome& parent2);
-	void Mutate(Chromosome& offspring, float mutationRate);
 	int EvaluateFitness(const Chromosome& chromosome);
 
-	FitnessGroups	 fitnessGroups;
-	std::vector<int> weights;
+	FitnessGroups fitnessGroups;
+	std::vector<int> rouletteWeights;
 };
 
 //--------------------------------------------------------------------------------------------------

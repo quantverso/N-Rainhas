@@ -3,11 +3,11 @@
 //--------------------------------------------------------------------------------------------------
 
 Queen::Queen(int column, int& row) :
-	column(column),
-	row(row),
-	offset({}),
-	collision(false),
-	attackStatus(false)
+	column{ column },
+	row{ row },
+	offset{},
+	collision{},
+	attackStatus{}
 {
 	static Texture queen{ "Resources/queen.png" };
 	material.Add(&queen);
@@ -24,8 +24,8 @@ void Queen::Update()
 		collision = transform.CheckCollision(&point);
 
 		offset = {
-			Mouse::Position().x - transform.Position().x,
-			Mouse::Position().y - transform.Position().y
+			point.Position().x - transform.Position().x,
+			point.Position().y - transform.Position().y
 		};
 	}
 

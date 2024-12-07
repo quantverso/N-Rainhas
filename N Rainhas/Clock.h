@@ -15,23 +15,15 @@ using Elapsed = duration<float>;
 class Clock
 {
 public:
-    Clock() :
-        first(high_resolution_clock::now()),
-        last(first),
-        current(first),
-        elapsed(Elapsed::zero())
-    {
-    }
-
     float ElapsedTime();
     float Count();
     void Reset();
 
 private:
-    Time    first;
-    Time    last;
-    Time    current;
-    Elapsed elapsed;
+    Time    first{ high_resolution_clock::now() };
+    Time    last{ first };
+    Time    current{ first };
+    Elapsed elapsed{ Elapsed::zero() };
 };
 
 //--------------------------------------------------------------------------------------------------
