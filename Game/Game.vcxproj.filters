@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Queen.cpp">
+      <Filter>N-Queens</Filter>
+    </ClCompile>
+    <ClCompile Include="NQueens.cpp">
+      <Filter>N-Queens</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>N-Queens</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneticAlgorithm.cpp">
+      <Filter>Local Search</Filter>
+    </ClCompile>
+    <ClCompile Include="HillClimbing.cpp">
+      <Filter>Local Search</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalSearch.cpp">
+      <Filter>Local Search</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Local Search</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Queen.h">
+      <Filter>N-Queens</Filter>
+    </ClInclude>
+    <ClInclude Include="NQueens.h">
+      <Filter>N-Queens</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>N-Queens</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneticAlgorithm.h">
+      <Filter>Local Search</Filter>
+    </ClInclude>
+    <ClInclude Include="HillClimbing.h">
+      <Filter>Local Search</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalSearch.h">
+      <Filter>Local Search</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Local Search</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedAnnealing.h">
+      <Filter>Local Search</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="N-Queens">
+      <UniqueIdentifier>{1c60e857-410f-4fb0-9cab-ee26fe3d7311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Local Search">
+      <UniqueIdentifier>{bb5486c2-1932-4845-b44d-51d9b2b4f251}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
